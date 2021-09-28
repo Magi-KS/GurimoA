@@ -8,8 +8,8 @@
   "scripts": {
     "start": "parcel serve --no-source-maps './src/contents/**/*.{html,md,json}'",
     "debug": "parcel serve --no-cache --no-source-maps --log-level verbose './src/contents/**/*.{html,md,json}'",
-    "build": "rm -fr dist/*;parcel build --no-optimize --no-source-maps './src/contents/**/*.{html,md,json}'",
-    "build-no-cache": "parcel build --no-cache --no-source-maps --no-optimize './src/contents/**/*.{html,md,json}'",
+    "build": "npm run generate-index && rm -fr dist/*;parcel build --no-optimize --no-source-maps './src/contents/**/*.{html,md,json}'",
+    "build-no-cache": "npm run generate-index && parcel build --no-cache --no-source-maps --no-optimize './src/contents/**/*.{html,md,json}'",
     "generate-index": "node scripts/generate-index.js",
     "build-transformer-markdown": "parcel build --no-source-maps --config @parcel/config-default ./packages/transformer-markdown/",
     "watch-transformer-markdown": "parcel watch --no-source-maps --config @parcel/config-default ./packages/transformer-markdown/",
