@@ -1,0 +1,5 @@
+<% layout("layout") %>
+<article>
+<time><%= it.timeStamp %></time>
+<%= it.content %>
+</article>

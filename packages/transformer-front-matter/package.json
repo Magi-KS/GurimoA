@@ -1,0 +1,17 @@
+{
+  "name": "parcel-transformer-front-matter",
+  "version": "1.0.0",
+  "description": "custom front matter transformer for parcel 2",
+  "main": "lib/FrontMatterTransformer.js",
+  "source": "src/FrontMatterTransformer.js",
+  "author": "KS",
+  "license": "MIT",
+  "engines": {
+    "parcel": "2.0.0-rc.0"
+  },
+  "dependencies": {
+    "@parcel/plugin": "next",
+    "front-matter": "^4.0.2",
+    "parcel": "next"
+  }
+}

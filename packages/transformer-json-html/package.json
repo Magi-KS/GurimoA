@@ -1,0 +1,16 @@
+{
+  "name": "parcel-transformer-json-html",
+  "version": "1.0.0",
+  "description": "custom json html transformer for parcel 2",
+  "main": "lib/JsonHtmlTransformer.js",
+  "source": "src/JsonHtmlTransformer.js",
+  "author": "KS",
+  "license": "MIT",
+  "engines": {
+    "parcel": "2.0.0-rc.0"
+  },
+  "dependencies": {
+    "@parcel/plugin": "next",
+    "parcel": "next"
+  }
+}

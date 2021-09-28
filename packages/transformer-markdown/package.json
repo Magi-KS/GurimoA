@@ -1,0 +1,17 @@
+{
+  "name": "parcel-transformer-md",
+  "version": "1.0.0",
+  "description": "custom markdown transformer for parcel 2",
+  "main": "lib/MarkdownTransformer.js",
+  "source": "src/MarkdownTransformer.js",
+  "author": "KS",
+  "license": "MIT",
+  "engines": {
+    "parcel": "2.0.0-rc.0"
+  },
+  "dependencies": {
+    "@parcel/plugin": "next",
+    "marked": "^1.2",
+    "parcel": "next"
+  }
+}

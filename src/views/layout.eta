@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= it.title %></title>
+    <meta property="og:title" content="<%= it.title %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <link href="/src/contents/css/core.scss" rel="stylesheet">
+  </head>
+  <body>
+    <header class="container">
+      <h1>GurimoA</h1>
+    </header>
+    <nav>
+      <ul class="lg:container">
+        <li>
+          <a href="/">Index</a>
+        </li>
+      </ul>
+    </nav>
+    <main class="lg:container">
+      <%~ it.body %>
+    </main>
+    <footer>
+      <ul class="lg:container">
+        <li>
+          <a href="#">GitHub Repository</a>
+        </li>
+      </ul>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "name": "gurimoa",
+  "version": "1.0.0",
+  "description": "gurimoa.net",
+  "workspaces": [
+    "packages/**/*"
+  ],
+  "scripts": {
+    "start": "parcel serve --no-source-maps './src/contents/**/*.{html,md,json}'",
+    "debug": "parcel serve --no-cache --no-source-maps --log-level verbose './src/contents/**/*.{html,md,json}'",
+    "build": "rm -fr dist/*;parcel build --no-optimize --no-source-maps './src/contents/**/*.{html,md,json}'",
+    "build-no-cache": "parcel build --no-cache --no-source-maps --no-optimize './src/contents/**/*.{html,md,json}'",
+    "generate-index": "node scripts/generate-index.js",
+    "build-transformer-markdown": "parcel build --no-source-maps --config @parcel/config-default ./packages/transformer-markdown/",
+    "watch-transformer-markdown": "parcel watch --no-source-maps --config @parcel/config-default ./packages/transformer-markdown/",
+    "build-transformer-front-matter": "parcel build --no-source-maps --config @parcel/config-default ./packages/transformer-front-matter/",
+    "watch-transformer-front-matter": "parcel watch --no-source-maps --config @parcel/config-default ./packages/transformer-front-matter/",
+    "build-transformer-json-html": "parcel build --no-source-maps --config @parcel/config-default ./packages/transformer-json-html/",
+    "watch-transformer-json-html": "parcel watch --no-source-maps --config @parcel/config-default ./packages/transformer-json-html/",
+    "build-transformer-eta": "parcel build --no-source-maps --config @parcel/config-default ./packages/transformer-eta/",
+    "watch-transformer-eta": "parcel watch --no-source-maps --config @parcel/config-default ./packages/transformer-eta/",
+    "build-custom-parcel": "npm run build-transformer-markdown && npm run build-transformer-eta"
+  },
+  "author": "KS",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "@parcel/transformer-image": "^2.0.0-rc.0",
+    "@parcel/transformer-sass": "^2.0.0-rc.0",
+    "autoprefixer": "^10.3.4",
+    "parcel": "next",
+    "parcel-transformer-json-html": "file:packages/transformer-json-html",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.15"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "parcel-transformer-eta",
+  "version": "1.0.0",
+  "description": "custom eta transformer for parcel 2",
+  "main": "lib/EtaTransformer.js",
+  "source": "src/EtaTransformer.js",
+  "author": "KS",
+  "license": "MIT",
+  "targets": {
+    "main": {
+      "context": "node"
+    }
+  },
+  "engines": {
+    "parcel": "2.0.0-rc.0"
+  },
+  "dependencies": {
+    "@parcel/plugin": "next",
+    "eta": "^1.12.3",
+    "parcel": "next"
+  }
+}

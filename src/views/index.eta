@@ -1,0 +1,13 @@
+<% layout("layout") %>
+<article>
+  <ul>
+    <% it.content.forEach((item) => { %>
+    <li class="index-item">
+      <a href="<%= item.path %>" class="index-link">
+        <p class="index-title"><%= item.title %></p>
+        <p class="index-dots"></p>
+        <time class="index-time"><%= item.timeStamp %></time></li>
+      </a>
+    <% }) %>
+  </ul>
+</article>

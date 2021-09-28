@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nova+Mono&family=Red+Hat+Display&family=Share+Tech+Mono&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  body {
+    @apply bg-black;
+    @apply min-h-screen;
+  }
+
+  header h1 {
+    font-family: 'Red Hat Display', sans-serif;
+    @apply text-9xl;
+    @apply text-center;
+    @apply text-purple-100;
+  }
+
+  nav {
+    @apply sticky;
+    @apply top-0;
+
+    &::before {
+      content: "";
+      background-blend-mode: luminosity;
+      z-index: -1;
+      @apply bg-yellow-700;
+      @apply bg-paper-texture;
+      @apply filter invert hue-rotate-180;
+      @apply absolute block h-full w-full;
+    }
+
+    ul {
+      @apply flex;
+    }
+    li {
+      @apply flex-1;
+    }
+    li a {
+      font-family: 'Share Tech Mono', monospace;
+      @apply p-6 text-6xl lg:p-4 lg:text-2xl;
+      @apply text-yellow-300;
+      @apply hover:bg-black hover:bg-opacity-50;
+      @apply box-border;
+      @apply inline-block w-full;
+    }
+  }
+
+  article {
+    @apply bg-yellow-100;
+    @apply bg-paper-texture;
+    background-blend-mode: luminosity;
+    @apply box-border;
+    @apply p-8;
+
+    time {
+      @apply block;
+      @apply text-base text-yellow-900 text-right;
+    }
+    h1 {
+      font-family: 'Share Tech Mono', monospace;
+      @apply text-4xl text-yellow-900;
+    }
+
+    p {
+      @apply text-xl;
+      @apply text-justify;
+      @apply text-yellow-900;
+      @apply my-8
+    }
+    a {
+      @apply text-purple-700 underline;
+    }
+
+    hr {
+      @apply border-yellow-900;
+    }
+    code {
+      @apply bg-white bg-opacity-50 px-1;
+      @apply text-black;
+    }
+    pre {
+      @apply bg-white bg-opacity-50 p-4;
+
+      code {
+        @apply text-xl;
+      }
+    }
+  }
+
+  footer {
+    @apply my-10;
+    ul {
+      @apply flex;
+    }
+    li {
+      @apply flex-1;
+    }
+    li a {
+      font-family: 'Share Tech Mono', monospace;
+      @apply p-6 text-6xl lg:p-4 lg:text-2xl;
+      @apply text-yellow-300;
+      @apply hover:bg-black hover:bg-opacity-50;
+      @apply box-border;
+      @apply inline-block w-full;
+    }
+  }
+}
+
+@layer components {
+  .index-item {
+    .index-link {
+      @apply flex;
+      &:hover {
+        @apply bg-opacity-50 bg-white;
+      }
+      .index-title{
+      }
+      .index-dots{
+        @apply flex-grow;
+        @apply border-b-4 border-dotted border-yellow-900;
+        min-width: 2rem;
+      }
+      .index-time{
+        @apply my-auto;
+      }
+    }
+  }
+}
