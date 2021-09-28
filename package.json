@@ -29,7 +29,6 @@
     "@parcel/transformer-sass": "^2.0.0-rc.0",
     "autoprefixer": "^10.3.4",
     "parcel": "next",
-    "parcel-transformer-json-html": "file:packages/transformer-json-html",
     "postcss": "^8.3.6",
     "tailwindcss": "^2.2.15"
   }
