@@ -19,7 +19,7 @@
     "watch-transformer-json-html": "parcel watch --no-source-maps --config @parcel/config-default ./packages/transformer-json-html/",
     "build-transformer-eta": "parcel build --no-source-maps --config @parcel/config-default ./packages/transformer-eta/",
     "watch-transformer-eta": "parcel watch --no-source-maps --config @parcel/config-default ./packages/transformer-eta/",
-    "build-custom-parcel": "npm run build-transformer-markdown && npm run build-transformer-eta"
+    "build-custom-parcel": "npm run build-transformer-markdown && npm run build-transformer-eta && npm run build-transformer-json-html && npm run build-transformer-front-matter"
   },
   "author": "KS",
   "license": "UNLICENSED",

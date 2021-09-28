@@ -6,6 +6,11 @@
   "source": "src/MarkdownTransformer.js",
   "author": "KS",
   "license": "MIT",
+  "targets": {
+    "main": {
+      "context": "node"
+    }
+  },
   "engines": {
     "parcel": "2.0.0-rc.0"
   },
