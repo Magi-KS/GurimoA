@@ -1,6 +1,6 @@
 import {Transformer} from '@parcel/plugin';
 import {promisify} from 'util';
-import marked from 'marked';
+import * as marked from 'marked';
 
 const markedParse = promisify(marked.parse);
 
