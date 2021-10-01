@@ -19,5 +19,3 @@ jobs:
           image-name: gurimoa
           # Docker Image tag
           image-tag: main
-          # Extract git-tag from repository
-          extract-git-tag: true
