@@ -1,0 +1,22 @@
+---
+title: "Deploying This Site With Kubernetes"
+viewTemplate: "record"
+timeStamp: "2021-10-07T02:21:04+08:00"
+---
+# Deploying This Site With Kubernetes
+
+Kubernetes, it was about 6 years ago when I first heard of it, at that moment I thought of it as a pretty cool tool, being able to handle all your deployment from a single control point but i did not venture into trying it out because I thought that it is not something that my workplace needed. Fast-forward 4 years later everyone seems to have gone crazy with the adoption of Kubernetes moving all their apps to Kubernetes, the atmosphere I felt at that moment was that "if you are not using Kubernetes you are not a good developer".
+
+I identify myself as a pragmatic developer and am adverse of adopting technologies just because it is the new thing in town. Alas I am just a no name developer among the vast pool of developers, so in order to demonstrate my ability of using Kubernetes I have decided to deploy this static site with it, on a single node cluster Kubernetes because I am cheap. It should be understood that it is sensible to Kubernetes for something more complex and not mundane like a static site in a normal circumstance.
+
+To deploy to Kubernetes, it is required to first wrap what you want to deploy in a container image as that is the common format that Kubernetes deals with. There are many options available on the internet to host container images, I have gone with GitHub Packages because I am already committing my code at GitHub and with GitHub actions I was able to easily build and publish my static site container image.
+
+Next is to find a host provider that offers Kubernetes, I decided to go with [Linode](https://www.linode.com/?r=57a6d8b9bfa4e787275d1e1f906ea430d84e8794). Once the cluster is created, a `kubeconfig` file is provided, it contains all the necessary data to establish a connection to the master of the Kubernetes cluster, it is an important file and should be handled with secrecy. Using `kubectl`, the standard client for interfacing with Kubernetes, and the `kubeconfig` file we can connect to the master node and start setting up for deploying the static site.
+
+In Kubernetes, the term resource is a general term that refers to objects you can create in Kubernetes. The resource that we want to pay attention to to deploy the static site is `Deployment` and `Service`. `Deployment` is how you define a workload for Kubernetes to run, once defined Kubernetes will pull the container image and run it in `Pods`. In order to enable requests to hit the `Pods`, a `Service` needs to be created that will forward the request to the `Pods` based on the name of the `Pods`. Kubernetes runs a private network and `Service` is there to assist forwarding request to the right `Pods` as we won't be able to know how Kubernetes assigns the internal IP to the `Pods`.
+
+Since we're being cheap here and do not wish to incur additional cost, we can define the `Service` to listen to the `Node` public IP address with `externalIp`, with this we can finally reach the static page hosted on the `Pods` from the internet. At this point we can call it done but if you want the full Kubernetes experience you gotta setup the `Ingress` as well.
+
+An `Ingress` in Kubernetes is a resource that defines the rule for letting external request to be routed to the right `Service`, you can think of it as the "router" file that most modern web framework has. It is not enough to have just an `Ingress` defined, there needs to be a `Ingress Controller` setup and running so that it is able to act on the `Ingress` rule. I decided to go with `nginx-ingress-controller` because I am more familiar with it. There are multiple ways to install `nginx-ingress-controller` but I have decided to use `HELM` as I think it makes it easier. `HELM` is something like a package manager but for Kubernetes. When we install `nginx-ingress-controller` without passing and values to `HELM` it will create a `Service` with `Type` of `LoadBalancer` which will trigger Linode to provision a Load Balancer service which we do not want here because it'll incur additional cost, so we pass in values to make `HELM` create a `Service` with `ClusterIP` and listen to the `Node` public IP with `externalIP`.
+
+With that we have successfully deployed our static site using Kubernetes, the Git repository for this site is publicly hosted on GitHub along with all the Kubernetes and `HELM` file used to set up deployment using Kubernetes.
