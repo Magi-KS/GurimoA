@@ -3,6 +3,8 @@ import {promisify} from 'util';
 import * as Eta from 'eta';
 import Path from 'path';
 
+const siteName = 'GurimoA';
+
 export default new Transformer({
   async transform({asset, resolve, options}) {
     asset.type = 'html';
@@ -15,25 +17,31 @@ export default new Transformer({
     });
 
     let code = await asset.getCode();
+    let parsedCode = '';
 
     try {
       let data = JSON.parse(code)
       let viewTemplate = 'index';
-      let parsedCode = await Eta.renderFileAsync(viewTemplate, {
-        content: data
+      parsedCode = await Eta.renderFileAsync(viewTemplate, {
+        content: data,
+        title: siteName
       });
-      asset.setCode(parsedCode);
     }
     catch(e) {
       let metaViewTemplate = asset.meta.frontMatter && asset.meta.frontMatter.viewTemplate
       let viewTemplate =  metaViewTemplate || "/default";
-      let parsedCode = await Eta.renderFileAsync(viewTemplate, {
+      parsedCode = await Eta.renderFileAsync(viewTemplate, {
         content: code,
-        ...asset.meta.frontMatter
+        ...asset.meta.frontMatter,
+        title: pageTitle(asset.meta.frontMatter.title)
       });
-      asset.setCode(parsedCode);
     }
 
+    asset.setCode(parsedCode);
     return [asset];
   },
 });
+
+function pageTitle(title) {
+  return title ? `${siteName} - ${title}` : siteName
+}
