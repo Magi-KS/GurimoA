@@ -2,7 +2,7 @@
 # BUILD STAGE
 ################################################################################
 
-FROM node:lts-slim AS builder
+FROM node:lts-bullseye-slim AS builder
 
 WORKDIR /build
 RUN npm install --global npm
