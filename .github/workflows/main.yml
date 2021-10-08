@@ -24,5 +24,7 @@ jobs:
         id: install
       - name: Deploy to Kubernetes cluster
         run: |
-          echo ${{ secrets.KRABBYPATTYSECRETSAUCE }} > /tmp/kbptssauce
+          echo "$KRABBYPATTYSECRETSAUCE" > /tmp/kbptssauce
           envsubst < .kube/gurimoa-deployment.yaml | kubectl apply --kubeconfig /tmp/kbptssauce -f -
+        env:
+          KRABBYPATTYSECRETSAUCE: ${{ secrets.KRABBYPATTYSECRETSAUCE }}
