@@ -17,8 +17,12 @@ jobs:
           docker build --tag $DOCKER_IMAGE_NAME_WITH_TAG .
           docker login ghcr.io -u Magi-KS -p ${{ secrets.GITHUB_TOKEN }}
           docker push $DOCKER_IMAGE_NAME_WITH_TAG
+      - uses: azure/setup-kubectl@v1
+        name: Install kubectl
+        with:
+          version: 'v1.22.2' # default is latest stable
+        id: install
       - name: Deploy to Kubernetes cluster
         run: |
-          apt install -y kubernetes-client
           echo ${{ secrets.KRABBYPATTYSECRETSAUCE }} > /tmp/kbptssauce
           envsubst < .kube/gurimoa-deployment.yaml | kubectl apply --kubeconfig /tmp/kbptssauce -f -
