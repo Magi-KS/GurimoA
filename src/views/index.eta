@@ -1,5 +1,5 @@
 <% layout("layout") %>
-<article>
+<article class="article">
   <ul>
     <% it.content.forEach((item) => { %>
     <li class="index-item">
