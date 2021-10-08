@@ -12,11 +12,11 @@ jobs:
       - name: Checkout
       - uses: actions/checkout@v2
       - name: Build docker image
-      - run: |-
+        run: |-
           docker build --tag gurimoa:${{ github.sha }}
       - name: Login to GitHub package registry
-      - run: |-
+        run: |-
           docker login ghcr.io -u Magi-KS -p ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to GitHub package registry
-      - run: |-
+        run: |-
           docker push gurimoa:${{ github.sha }}
