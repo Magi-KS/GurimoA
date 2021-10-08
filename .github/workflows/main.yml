@@ -18,4 +18,4 @@ jobs:
           # Docker Image name
           image-name: gurimoa
           # Docker Image tag
-          image-tag: main
+          image-tag: ${{ env.GITHUB_SHA }}
