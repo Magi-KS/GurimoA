@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Build docker image and Publish to GitHub package registry
         run: |
-          DOCKER_IMAGE_NAME_WITH_TAG= $(echo ghcr.io/${{ github.repository }}/gurimoa:${{ github.sha }} | tr '[:upper:]' '[:lower:]')
+          DOCKER_IMAGE_NAME_WITH_TAG=$(echo ghcr.io/${{ github.repository }}/gurimoa:${{ github.sha }} | tr '[:upper:]' '[:lower:]')
           docker build --tag $DOCKER_IMAGE_NAME_WITH_TAG .
           docker login ghcr.io -u Magi-KS -p ${{ secrets.GITHUB_TOKEN }}
           docker push $DOCKER_IMAGE_NAME_WITH_TAG
