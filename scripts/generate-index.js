@@ -22,6 +22,14 @@ Promise.all(filesPromise).then((filesContent) => {
   return contentIndex;
 })
 .then((contentIndex) => {
+  contentIndex.sort((item1, item2) => {
+    let date1 = new Date(item1.timeStamp);
+    let date2 = new Date(item2.timeStamp);
+    let outcome = {};
+    outcome[true] = 1;
+    outcome[false] = -1;
+    return outcome[date1 < date2];
+  });
   let data = JSON.stringify(contentIndex);
   Fs.writeFile(contentRoot + '/index.json', data)
 })
