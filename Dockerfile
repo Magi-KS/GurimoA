@@ -12,7 +12,7 @@ RUN apt-get install -y --no-install-recommends build-essential python3
 COPY . .
 RUN npm install
 RUN npm run build-custom-parcel
-RUN npm run build
+RUN PARCEL_WORKER_BACKEND=process npm run build
 
 ################################################################################
 # RUNTIME STAGE
