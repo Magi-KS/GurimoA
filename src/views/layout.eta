@@ -7,6 +7,10 @@
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
     <link href="/src/contents/css/core.scss" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="/src/contents/css/fonts.scss" rel="preload">
+    <link href="/src/contents/css/fonts.scss" rel="stylesheet">
     <link rel="icon" type="image/png" size="16x16" href="/src/contents/img/favicon.png?width=16&height=16">
     <link rel="icon" type="image/png" size="32x32" href="/src/contents/img/favicon.png?width=32&height=32">
     <link rel="icon" type="image/png" size="192x192" href="/src/contents/img/favicon.png?width=192&height=192">
