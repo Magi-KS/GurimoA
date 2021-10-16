@@ -2,10 +2,13 @@
 <html lang="en">
   <head>
     <title><%= it.title %></title>
+
+    <meta name="viewport" content="width=device-width">
     <meta property="og:title" content="<%= it.title %>" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
+
     <link href="/src/contents/css/core.scss" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
