@@ -109,10 +109,13 @@
   .index-item {
     .index-link {
       @apply flex;
+      @apply no-underline;
       &:hover {
         @apply bg-opacity-50 bg-white;
       }
       .index-title{
+        font-family: 'Share Tech Mono', monospace;
+        @apply text-lg;
       }
       .index-dots{
         @apply flex-grow;

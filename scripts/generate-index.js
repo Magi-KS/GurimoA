@@ -22,17 +22,25 @@ Promise.all(filesPromise).then((filesContent) => {
   return contentIndex;
 })
 .then((contentIndex) => {
-  contentIndex.sort((item1, item2) => {
-    let date1 = new Date(item1.timeStamp);
-    let date2 = new Date(item2.timeStamp);
-    let outcome = {};
-    outcome[true] = 1;
-    outcome[false] = -1;
-    return outcome[date1 < date2];
-  });
+  contentIndex.sort(indexByTime);
+  contentIndex.map(formatTime);
   let data = JSON.stringify(contentIndex);
   Fs.writeFile(contentRoot + '/index.json', data)
 })
+
+function indexByTime(item1, item2) {
+  let date1 = new Date(item1.timeStamp);
+  let date2 = new Date(item2.timeStamp);
+  let outcome = {};
+  outcome[true] = 1;
+  outcome[false] = -1;
+  return outcome[date1 < date2];
+}
+
+function formatTime(item) {
+  item.timeStamp = item.timeStamp.split('T')[0];
+  return item;
+}
 
 function urlFromPath(path){
   contentPath = Path.relative(contentRoot, path);
