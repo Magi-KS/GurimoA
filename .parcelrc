@@ -3,6 +3,6 @@
   "transformers": {
     "*.md": ["parcel-transformer-front-matter", "parcel-transformer-md"],
     "*.json": ["parcel-transformer-json-html"],
-    "*.html": ["parcel-transformer-eta", "..."]
+    "*.html": ["parcel-transformer-front-matter", "parcel-transformer-eta", "..."]
   }
 }

@@ -53,6 +53,10 @@
     @apply box-border;
     @apply p-4 md:p-8;
 
+    &.torn {
+      mask: url(/src/contents/img/torn-paper.png) repeat-x luminance;
+    }
+
     time {
       @apply block;
       @apply text-yellow-900 text-right;

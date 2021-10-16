@@ -1,7 +1,7 @@
 module.exports = {
   purge: {
     enabled: true,
-    content: ['./src/views/*.eta']
+    content: ['./src/views/*.eta', './src/contents/*.html']
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
