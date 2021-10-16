@@ -7,7 +7,10 @@ export default new Transformer({
 
     let parsedCode = FrontMatter(code);
 
-    asset.meta.frontMatter = parsedCode.attributes;
+    // initialize if empty
+    asset.meta.frontMatter = asset.meta.frontMatter || {};
+    // merge values
+    asset.meta.frontMatter = {...asset.meta.frontMatter, ...parsedCode.attributes};
     asset.setCode(parsedCode.body);
     return [asset];
   },
