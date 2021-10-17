@@ -22,7 +22,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        'paper-texture': "url('/src/contents/img/paper-texture.png')",
+        'paper-texture': "url('/src/contents/img/paper-texture.png?as=jpg')",
       }
     },
   },
