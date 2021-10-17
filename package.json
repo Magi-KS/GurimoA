@@ -6,9 +6,9 @@
     "packages/**/*"
   ],
   "scripts": {
-    "start": "PARCEL_WORKER_BACKEND=process parcel serve --no-source-maps './src/contents/**/*.{html,md,json}'",
-    "debug": "PARCEL_WORKER_BACKEND=process parcel serve --no-cache --no-source-maps --log-level verbose './src/contents/**/*.{html,md,json}'",
-    "build": "npm run generate-index && rm -fr dist/*;PARCEL_WORKER_BACKEND=process parcel build --no-source-maps './src/contents/**/*.{html,md,json}'",
+    "start": "PARCEL_WORKER_BACKEND=process parcel serve --no-source-maps './src/contents/**/*.{html,md,json,txt}'",
+    "debug": "PARCEL_WORKER_BACKEND=process parcel serve --no-cache --no-source-maps --log-level verbose './src/contents/**/*.{html,md,json,txt}'",
+    "build": "npm run generate-index && rm -fr dist/*;PARCEL_WORKER_BACKEND=process parcel build --no-source-maps './src/contents/**/*.{html,md,json,txt}'",
     "generate-index": "node scripts/generate-index.js",
     "build-transformer-markdown": "parcel build --no-source-maps --config @parcel/config-default ./packages/transformer-markdown/",
     "watch-transformer-markdown": "parcel watch --no-source-maps --config @parcel/config-default ./packages/transformer-markdown/",
