@@ -24,11 +24,15 @@
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
+    "sharp-cli": "^1.15.0"
+  },
+  "dependencies": {
     "@parcel/transformer-image": "^2.0.0-rc.0",
     "@parcel/transformer-sass": "^2.0.0-rc.0",
     "autoprefixer": "^10.3.4",
     "parcel": "next",
     "postcss": "^8.3.6",
-    "tailwindcss": "^2.2.15"
+    "tailwindcss": "^2.2.15",
+    "paper-css": "^0.4.1"
   }
 }

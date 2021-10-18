@@ -1,0 +1,51 @@
+@use '../../../node_modules/paper-css/paper';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+  @apply text-2xl font-bold;
+  @apply my-4;
+}
+
+.card {
+  @apply list-none;
+
+  .card-container {
+    @apply flex flex-row;
+  }
+  .card-img {
+    @apply p-2;
+    @apply flex-shrink-0;
+  }
+  .card-text {
+    @apply flex-grow py-2;
+  }
+  .card-title {
+    @apply text-xl;
+  }
+  .card-link {
+    @apply text-blue-500;
+  }
+  .card-desc {
+    @apply text-xs text-gray-700;
+  }
+
+}
+
+.style-list {
+  list-style: disc;
+  list-style-position: inside;
+}
+
+.page-footer {
+  position: absolute;
+  bottom: 0;
+  width: inherit;
+  left: 0;
+  padding: inherit;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
