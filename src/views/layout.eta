@@ -18,6 +18,15 @@
     <link rel="icon" type="image/png" size="16x16" href="/src/contents/img/favicon.png?width=16&height=16">
     <link rel="icon" type="image/png" size="32x32" href="/src/contents/img/favicon.png?width=32&height=32">
     <link rel="icon" type="image/png" size="192x192" href="/src/contents/img/favicon.png?width=192&height=192">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HNEKYC81R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-1HNEKYC81R');
+    </script>
   </head>
   <body>
     <header class="container">
