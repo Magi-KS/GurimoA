@@ -52,6 +52,7 @@
     background-blend-mode: luminosity;
     @apply box-border;
     @apply p-4 md:p-8;
+    @apply text-yellow-900;
 
     &.torn {
       mask: url(/src/contents/img/torn-paper.png) repeat-x luminance;
@@ -63,7 +64,11 @@
     }
     h1 {
       font-family: 'Share Tech Mono', monospace;
-      @apply font-bold text-xl md:text-3xl text-yellow-900;
+      @apply font-bold text-xl md:text-3xl;
+    }
+    h2 {
+      font-family: 'Share Tech Mono', monospace;
+      @apply font-bold text-lg md:text-2xl;
     }
 
     p {
@@ -73,6 +78,10 @@
     }
     a {
       @apply text-purple-700 underline;
+    }
+
+    li {
+      @apply list-disc list-inside;
     }
 
     hr {
@@ -87,6 +96,7 @@
       @apply overflow-x-auto;
 
       code {
+        @apply bg-transparent;
       }
     }
   }
@@ -110,24 +120,27 @@
 }
 
 @layer components {
-  .index-item {
-    .index-link {
-      @apply flex;
-      @apply no-underline;
-      &:hover {
-        @apply bg-opacity-50 bg-white;
-      }
-      .index-title{
-        font-family: 'Share Tech Mono', monospace;
-        @apply text-lg;
-      }
-      .index-dots{
-        @apply flex-grow;
-        @apply border-b-2 border-dotted border-yellow-900;
-        min-width: 2rem;
-      }
-      .index-time{
-        @apply my-auto;
+  .article {
+    .index-item {
+      @apply list-none;
+      .index-link {
+        @apply flex;
+        @apply no-underline;
+        &:hover {
+          @apply bg-opacity-50 bg-white;
+        }
+        .index-title{
+          font-family: 'Share Tech Mono', monospace;
+          @apply text-lg;
+        }
+        .index-dots{
+          @apply flex-grow;
+          @apply border-b-2 border-dotted border-yellow-900;
+          min-width: 2rem;
+        }
+        .index-time{
+          @apply my-auto;
+        }
       }
     }
   }
