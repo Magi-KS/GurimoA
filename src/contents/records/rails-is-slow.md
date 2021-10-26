@@ -6,21 +6,21 @@ timeStamp: "2021-10-24T18:02:00+08:00"
 
 # Rails Is Slow
 
-Rails is slow, is what you hear from people when they complain about how under performing a Rails application is, but why is Rails slow? I've heard various kind of response from people over time, "because Ruby is slow", "Because Rails is bloated" but is that true? That is what I will attempt to demystify in this post by performing some simple test.
+Rails is slow, is what you hear from people when they complain about how under performing a Rails application is, but why is Rails slow? I've heard various kind of responses from people over time, "because Ruby is slow", "Because Rails is bloated" but is that true? That is what I will attempt to demystify in this post by performing some simple tests.
 
-## The Test
+## The Tests
 
-I have decided to perform the test by having just Rails out of the box as it is with 2 different Rack application server which I think are the most commonly used among Rails deployment, [Unicorn](https://github.com/defunkt/unicorn) and [Puma](https://github.com/puma/puma).
+I have decided to perform the tests by having just Rails out of the box as it is with 2 different Rack application server, which I think are the most commonly used among Rails deployment, [Unicorn](https://github.com/defunkt/unicorn) and [Puma](https://github.com/puma/puma).
 
-What I am testing here is the request per second handled the application server, specifically the the application logic. What I am not testing here is serving of static assets which any experienced Rails developer should know is best fulfilled by Nginx.
+What I am testing here is the requests per second handled by the application server, specifically the the application logic. What I am not testing here is serving of static assets which any experienced Rails developer should know is best fulfilled by Nginx.
 
-For the test I have prepared 2 endpoints:
+For the tests I have prepared 2 endpoints:
 - `/` will just respond with 'hello world'
 - `/simulated_io?delay=1` will respond with 'simulated io' after `delay` amount of seconds.
 
 To test the endpoints I will be sending traffic to them with [Plow](https://github.com/six-ddc/plow).
 
-In order for the test to be as transparent as possible I've made a [GitHub repository](https://github.com/Magi-KS/rails-benchmark) that you can use to run the test on your own machine with ease because it is dockerized.
+In order for the tests to be as transparent as possible I've made a [GitHub repository](https://github.com/Magi-KS/rails-benchmark) that you can use to run the test on your own machine with ease because it is dockerized.
 
 ## Rails With Unicorn
 
@@ -28,11 +28,11 @@ The first test will be Unicorn with `1 worker and 1 CPU`, which can be started a
 ```bash
 docker run -p 8080:3000 --cpus 1 -e RAILS_ENV=production magi-ks-rails-benchmark bundle exec unicorn -c config/unicorn.conf
 ```
-testing with the `/` endpoint with `1 concurrent connection`:
+testing with the `/` endpoint with `concurrency of 1`:
 ```bash
 docker run --rm --net=host ghcr.io/six-ddc/plow -c 1 'http://localhost:8080/'
 ```
-we get this result:
+We get this result:
 ```bash
   Elapsed    37.564s
   Count        20955
@@ -59,13 +59,13 @@ Latency Histogram:
   10.99ms       4   0.02%
   14.606ms      1   0.00%
 ```
-557 request per second, looks pretty good keep in mind this is without any complicated application logic, taking into account application logic it can easily fall to 20% of this throughput.
+557 requests per second, looks pretty good keep in mind this is without any complicated application logic, taking into account application logic it can easily fall to 20% of this throughput.
 
-now lets try the `/simulated_io` endpoint with `delay of 1 second` and `concurrency of 1`:
+Now lets try the `/simulated_io` endpoint with `delay of 1 second` and `concurrency of 1`:
 ```bash
 docker run --rm --net=host ghcr.io/six-ddc/plow -c 1 'http://localhost:8080/simulated_io?delay=1'
 ```
-and the result we got is:
+And the result we got is:
 ```bash
   Elapsed     42.44s
   Count           42
@@ -91,13 +91,13 @@ Latency Histogram:
   1.009067s   2   4.76%
 ```
 ## The Performance Thief
-nearly 1 request per second! what happened here? Ruby is slow? Rails is slow? it is neither. It has more to do with how IO is handled by the process, IO here can be anything from Network IO to Disk IO. When the code executes to the point where it needs to perform IO it needs to wait for the result of the IO before being able to continue with the code execution.
+Nearly 1 request per second! what happened here? Is Ruby slow? Is Rails slow? it is neither. It has more to do with how IO is handled by the process, IO here can be anything from Network IO to Disk IO. When the code executes to the point where it needs to perform IO, it needs to wait for the result of the IO before being able to continue with the code execution.
 
-What really happened here is that we simulated IO with the `sleep` system call which tells the OS scheduler to not run the process until after 1 second has passed, with an actual IO operation it'll be similar because the process would be waiting for the IO result and not able to continue execution until the IO result is returned.
+What really happened here is that we simulated IO with the `sleep` system call, which tells the OS scheduler to not run the process until after 1 second has passed, with an actual IO operation it'll be similar because the process would be waiting for the IO result and not able to continue execution until the IO result is returned.
 
-Ok so the IO is blocking the code execution for that particular request the process can handle other request at the mean time yes?
+Ok, so the IO is blocking the code execution for that particular request the process can handle other request at the mean time yes?
 
-let's try it out with `/simulated_io` endpoint with `delay of 1 second` and `concurrency of 5`:
+Let's try it out with `/simulated_io` endpoint with `delay of 1 second` and `concurrency of 5`:
 ```bash
 docker run --rm --net=host ghcr.io/six-ddc/plow -c 5 'http://localhost:8080/simulated_io?delay=1'
 ```
@@ -128,11 +128,11 @@ Latency Histogram:
   5.034354s  19  31.15%
   5.035819s   9  14.75%
 ```
-Still about 1 second per request but wait, the average response time have gone up to 5 seconds! what happened here? The problem here is that the Unicorn application server is only able to handle 1 request at a time, if the request needs to wait for 1 second for the IO to complete then the next request inline will have to wait for the first request to finish and the 3rd request would have o wait for both the first and second request to finish before being processed and so on.
+Still about 1 request per second but wait, the average response time has gone up to 5 seconds! what happened here? The problem here is that the Unicorn application server is only able to handle 1 request at a time, if the request needs to wait for 1 second for the IO to complete then the next request inline will have to wait for the first request to finish and the 3rd request would have o wait for both the first and second request to finish before being processed and so on.
 
 "This is why Rails can't scale!" you might shout but that is not entirely true. If we take "scaling" as being able to handle X amount of request per second then all you need to do is to increase the worker count.
 
-Starting the Unicorn application server with `1 CPU and 5 worker`:
+Starting the Unicorn application server with `1 CPU and 5 workers`:
 ```bash
 docker run -p 8080:3000 --cpus 1 -e RAILS_ENV=production -e WORKER_COUNT=5 magi-ks-rails-benchmark bundle exec unicorn -c config/unicorn.conf
 ```
@@ -168,17 +168,17 @@ Latency Histogram:
   1.030089s   1   0.67%
   1.032636s   2   1.33%
 ```
-Cool we get 5 request per second even with the simulated IO, all we gotta do is to have the amount of worker that is equivalent to the highest concurrent request we'll ever get, problem solved.
+Cool we get 5 requests per second even with the simulated IO, all we gotta do is to have the amount of worker that is equivalent to the highest concurrent request we'll ever get, problem solved.
 
-While that is correct but what is the cost? Unicorn creates more worker by process forking each process would require their own memory space. An average Rails application would be around 200MB per process so if you need to be able to handle 100 concurrent request then you will need at least `100 * 200MB` or memory available which is `20GB` of `RAM` just to handle 100 concurrent request within 1 second.
+While that is correct but what is the cost? Unicorn creates more worker by process forking, each process would require their own memory space. An average Rails application would be around 200MB per process so if you need to be able to handle 100 concurrent request then you will need at least `100 * 200MB` or memory available which is `20GB` of `RAM` just to handle 100 concurrent request within 1 second.
 
 Well that sounds expensive to run but it scales I guess, no choice but to fork the cash over to the cloud provider. Well no so fast, Unicorn isn't the only Rack application server available, we have also Puma.
 
 ## Rails With Puma
 
-Puma is the default application server for Rails since Rails 5 and there is a good reason for it. Puma is able to have worker thread, a thread requires a lot less memory to maintain compared to a another process. So puma is be able to achieve what Unicorn is able to achieve with much less memory requirement.
+Puma is the default application server for Rails since Rails 5 and there is a good reason for it. Puma is able to have worker threads, a thread requires a lot less memory to maintain compared to a another process. So puma is be able to achieve what Unicorn is able to achieve with much less memory requirement.
 
-Let's do some test, we can start up `Puma` with `1 CPU and 100 thread`:
+Let's do some test, we can start up `Puma` with `1 CPU and 100 threads`:
 ```bash
 docker run -p 8080:3000 --cpus 1 -e RAILS_MAX_THREADS=100 -e RAILS_ENV=production magi-ks-rails-benchmark bundle exec rails s -b 0.0.0.0
 ```
@@ -218,7 +218,7 @@ Latency Histogram:
   1.285833s     5   0.06%
   1.314588s     1   0.01%
 ```
-So we manged to achieve 100 request per second even with the simulated IO workload by having 100 worker thread, and all the request was served in about 1 second. For comparison sake let's try to achieve the same thing with Unicorn.
+So we manged to achieve 100 requests per second even with the simulated IO workload by having 100 worker threads, and all the request was served in about 1 second. For comparison sake let's try to achieve the same thing with Unicorn.
 
 `Unicorn` with `1 CPU and 100 workers`:
 ```bash
@@ -260,17 +260,17 @@ Latency Histogram:
   7.030209s     11   0.07%
   7.698262s      1   0.01%
 ```
-Look at that memory usage difference between Unicorn and Puma 4GB VS 140MB and Unicorn have some hiccups with some request taking up to 7 seconds to serve. Keep in mind these are the result of this synthetic benchmark to illustrate an example, real world result might be slightly different but in line with what we see here.
+Look at that memory usage difference between Unicorn and Puma 4GB VS 140MB and Unicorn had some hiccups with some request taking up to 7 seconds to serve. Keep in mind these are the results of this synthetic benchmark to illustrate an example, real world results might be slightly different but in line with what we see here.
 
-Well I guess all we need to do is to switch to Puma and add lots of worker thread, yes but there's a catch you need to make sure your application is `thread safe` if you wish to use Puma worker thread. Rails and its dependency are `thread safe` since Rails 3 but you need to make sure that the Gems that you depend on are `thread safe` on your own.
+Well I guess all we need to do is to switch to Puma and add lots of worker thread, yes but there's a catch you need to make sure your application is `thread safe` if you wish to use Puma worker threads. Rails and its dependencies are `thread safe` since Rails 3 but you need to make sure that the Gems that you depend on are `thread safe` on your own.
 
-What does `thread safe` mean? Because different thread can run at different time we need to make sure that there are no shared state between the thread. A mundane example would be a global variable that your code depends on if 1 request stores a temporary variable that it needs to perform a task on the global variable then the OS scheduler decides to swap the thread out to work on another thread that also writes to the same global variable then when the original thread gets swapped back to continue running the value stored on the global variable might not be what we wanted any more. This can be a huge pain to debug as we may not know exactly how it happens.
+What does `thread safe` mean? Because different threads can run at different times we need to make sure that there are no shared state between the threads. A mundane example would be a global variable that your code depends on, if a request stores a temporary variable on the global variable, then the OS scheduler decides to swap the thread out to work on another thread that also writes to the same global variable, when the original thread gets swapped back to continue running the value stored on the global variable might not be what we wanted any more. This can be a huge pain to debug as we may not know exactly how it happens.
 
 So what have we learned here?
 - Ruby/Rails is not slow.
 - The way Ruby/Rails handles IO is the main culprit of slowness.
 - Rails can scale with Unicorn workers albeit inefficient.
-- Inefficiency can be addressed with use Puma and worker thread.
+- Inefficiency can be addressed with the use Puma and worker threads.
 - Thread safety is a requirement in order to safely use Puma worker thread.
 
 "That is a lot of things and caveats to know about to get performant Rails" you may think but this is only the most common case, there are other ways to squeeze performance out of Ruby and Rack applications.
