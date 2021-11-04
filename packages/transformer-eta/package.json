@@ -15,8 +15,8 @@
     "parcel": "2.x"
   },
   "dependencies": {
-    "@parcel/plugin": "next",
+    "@parcel/plugin": "^2.0.0",
     "eta": "^1.12.3",
-    "parcel": "next"
+    "parcel": "^2.0.0"
   }
 }

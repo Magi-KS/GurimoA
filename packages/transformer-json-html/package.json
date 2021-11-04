@@ -10,7 +10,7 @@
     "parcel": "2.x"
   },
   "dependencies": {
-    "@parcel/plugin": "next",
-    "parcel": "next"
+    "@parcel/plugin": "^2.0.0",
+    "parcel": "^2.0.0"
   }
 }
