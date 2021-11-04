@@ -6,9 +6,9 @@
     "packages/**/*"
   ],
   "scripts": {
-    "start": "PARCEL_WORKER_BACKEND=process parcel serve --no-source-maps './src/contents/**/*.{html,md,json,txt}'",
-    "debug": "PARCEL_WORKER_BACKEND=process parcel serve --no-cache --no-source-maps --log-level verbose './src/contents/**/*.{html,md,json,txt}'",
-    "build": "npm run generate-index && rm -fr dist/*;PARCEL_WORKER_BACKEND=process parcel build --log-level verbose --no-source-maps './src/contents/**/*.{html,md,json,txt}'",
+    "start": "parcel serve --no-source-maps './src/contents/**/*.{html,md,json,txt}'",
+    "debug": "parcel serve --no-cache --no-source-maps --log-level verbose './src/contents/**/*.{html,md,json,txt}'",
+    "build": "npm run generate-index && rm -fr dist/*;parcel build --log-level verbose --no-source-maps './src/contents/**/*.{html,md,json,txt}'",
     "generate-index": "node scripts/generate-index.js",
     "build-transformer-markdown": "parcel build --no-source-maps --config @parcel/config-default ./packages/transformer-markdown/",
     "watch-transformer-markdown": "parcel watch --no-source-maps --config @parcel/config-default ./packages/transformer-markdown/",
@@ -24,12 +24,14 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@parcel/transformer-image": "^2.0.0-rc.0",
-    "@parcel/transformer-sass": "^2.0.0-rc.0",
     "autoprefixer": "^10.3.4",
-    "parcel": "next",
+    "paper-css": "^0.4.1",
     "postcss": "^8.3.6",
-    "tailwindcss": "^2.2.15",
-    "paper-css": "^0.4.1"
+    "tailwindcss": "^2.2.15"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.0",
+    "parcel": "^2.0.0",
+    "sharp": "^0.29.2"
   }
 }
