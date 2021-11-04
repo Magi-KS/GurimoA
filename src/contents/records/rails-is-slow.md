@@ -3,7 +3,6 @@ title: "Rails Is Slow"
 viewTemplate: "record"
 timeStamp: "2021-10-24T18:02:00+08:00"
 ---
-
 # Rails Is Slow
 
 Rails is slow, is what you hear from people when they complain about how under performing a Rails application is, but why is Rails slow? I've heard various kind of responses from people over time, "because Ruby is slow", "Because Rails is bloated" but is that true? That is what I will attempt to demystify in this post by performing some simple tests.
