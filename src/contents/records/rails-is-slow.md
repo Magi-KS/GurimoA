@@ -127,7 +127,7 @@ Latency Histogram:
   5.034354s  19  31.15%
   5.035819s   9  14.75%
 ```
-Still about 1 request per second but wait, the average response time has gone up to 5 seconds! what happened here? The problem here is that the Unicorn application server is only able to handle 1 request at a time, if the request needs to wait for 1 second for the IO to complete then the next request inline will have to wait for the first request to finish and the 3rd request would have o wait for both the first and second request to finish before being processed and so on.
+Still about 1 request per second but wait, the average response time has gone up to 5 seconds! what happened here? The problem here is that the Unicorn application server is only able to handle 1 request at a time, if the request needs to wait for 1 second for the IO to complete then the next request inline will have to wait for the first request to finish and the 3rd request would have to wait for both the first and second request to finish before being processed and so on.
 
 "This is why Rails can't scale!" you might shout but that is not entirely true. If we take "scaling" as being able to handle X amount of request per second then all you need to do is to increase the worker count.
 
@@ -171,7 +171,7 @@ Cool we get 5 requests per second even with the simulated IO, all we gotta do is
 
 While that is correct but what is the cost? Unicorn creates more worker by process forking, each process would require their own memory space. An average Rails application would be around 200MB per process so if you need to be able to handle 100 concurrent request then you will need at least `100 * 200MB` or memory available which is `20GB` of `RAM` just to handle 100 concurrent request within 1 second.
 
-Well that sounds expensive to run but it scales I guess, no choice but to fork the cash over to the cloud provider. Well no so fast, Unicorn isn't the only Rack application server available, we have also Puma.
+Well that sounds expensive to run but it scales I guess, no choice but to fork the cash over to the cloud provider. Well not so fast, Unicorn isn't the only Rack application server available, we have also Puma.
 
 ## Rails With Puma
 
@@ -261,7 +261,7 @@ Latency Histogram:
 ```
 Look at that memory usage difference between Unicorn and Puma 4GB VS 140MB and Unicorn had some hiccups with some request taking up to 7 seconds to serve. Keep in mind these are the results of this synthetic benchmark to illustrate an example, real world results might be slightly different but in line with what we see here.
 
-Well I guess all we need to do is to switch to Puma and add lots of worker thread, yes but there's a catch you need to make sure your application is `thread safe` if you wish to use Puma worker threads. Rails and its dependencies are `thread safe` since Rails 3 but you need to make sure that the Gems that you depend on are `thread safe` on your own.
+Well I guess all we need to do is to switch to Puma and add lots of worker thread, yes but there's a catch, you need to make sure your application is `thread safe` if you wish to use Puma worker threads. Rails and its dependencies are `thread safe` since Rails 3 but you need to make sure that the Gems that you depend on are `thread safe` on your own.
 
 What does `thread safe` mean? Because different threads can run at different times we need to make sure that there are no shared state between the threads. A mundane example would be a global variable that your code depends on, if a request stores a temporary variable on the global variable, then the OS scheduler decides to swap the thread out to work on another thread that also writes to the same global variable, when the original thread gets swapped back to continue running the value stored on the global variable might not be what we wanted any more. This can be a huge pain to debug as we may not know exactly how it happens.
 
