@@ -10,8 +10,8 @@
     "parcel": "2.x"
   },
   "dependencies": {
-    "@parcel/plugin": "^2.0.0",
+    "@parcel/plugin": "^2.6",
     "front-matter": "^4.0.2",
-    "parcel": "^2.0.0"
+    "parcel": "^2.6"
   }
 }
