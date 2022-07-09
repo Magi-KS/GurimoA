@@ -8,6 +8,11 @@ npm install
 npm run build-custom-parcel
 ```
 
+generate index:
+```
+npm run generate-index
+```
+
 to develop:
 ```
 npm start
