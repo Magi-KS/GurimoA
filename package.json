@@ -31,8 +31,8 @@
     "tailwindcss": "^2.2.15"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.6.2",
-    "parcel": "^2.6",
+    "@parcel/transformer-sass": "^2.7.0",
+    "parcel": "^2.7",
     "sharp": "^0.29.1"
   }
 }
