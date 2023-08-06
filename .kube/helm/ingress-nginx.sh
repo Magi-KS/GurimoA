@@ -1,2 +1,2 @@
 #!/bin/bash
-helm install -f ingress.yaml ingress-nginx-gurimoa ingress-nginx/ingress-nginx
+helm install -f ingress-nginx.yaml ingress-nginx-gurimoa ingress-nginx/ingress-nginx
